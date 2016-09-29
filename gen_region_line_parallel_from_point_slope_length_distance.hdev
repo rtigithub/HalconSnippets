@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>dev_close_window ()</l>
+<l>dev_open_window (0, 0, 512, 512, 'black', WindowHandle)</l>
+<l>dev_update_window ('off')</l>
+<l>dev_update_pc ('off')</l>
+<l>for Index := 0 to 511 by 1</l>
+<l>    dev_clear_window ()</l>
+<l>    gen_region_line_parallel_from_point_slope_length_distance (LineRegion, ParallelRegion, rad(Index), 511-Index, Index, 255, 20)</l>
+<l>    dev_set_color ('red')</l>
+<l>    dev_display (LineRegion)</l>
+<l>    dev_set_color ('green')</l>
+<l>    dev_display(ParallelRegion)</l>
+<l>    wait_seconds (0.01)</l>
+<l>endfor</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="gen_region_line_parallel_from_point_slope_length_distance">
+<interface>
+<oo>
+<par name="LineRegion" base_type="iconic" dimension="0"/>
+<par name="ParallelRegion" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="Phi" base_type="ctrl" dimension="0"/>
+<par name="Row" base_type="ctrl" dimension="0"/>
+<par name="Column" base_type="ctrl" dimension="0"/>
+<par name="Length" base_type="ctrl" dimension="0"/>
+<par name="Distance" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>gen_cross_contour_xld (Cross, Row, Column, Length, Phi)</l>
+<l>get_contour_xld (Cross, Row, Column)</l>
+<l>gen_region_line (LineRegion, Row[0], Column[0], Row[1], Column[1])</l>
+<l>gen_contour_polygon_xld (Line, Row[0:1], Column[0:1])</l>
+<l>gen_parallel_contour_xld (Line, Parallel, 'regression_normal', Distance)</l>
+<l>get_contour_xld (Parallel, Row, Column)</l>
+<l>gen_region_line (ParallelRegion, Row[0], Column[0], Row[1], Column[1])</l>
+<l>return ()</l>
+</body>
+<docu id="gen_region_line_parallel_from_point_slope_length_distance">
+<parameters>
+<parameter id="Column"/>
+<parameter id="Distance"/>
+<parameter id="Length"/>
+<parameter id="LineRegion"/>
+<parameter id="ParallelRegion"/>
+<parameter id="Phi"/>
+<parameter id="Row"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

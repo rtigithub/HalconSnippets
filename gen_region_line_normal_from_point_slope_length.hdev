@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>dev_close_window ()</l>
+<l>dev_open_window (0, 0, 512, 512, 'black', WindowHandle)</l>
+<l>dev_update_window ('off')</l>
+<l>dev_update_pc ('off')</l>
+<l>for Index := 0 to 511 by 1</l>
+<l>    dev_clear_window ()</l>
+<l>    gen_region_line_normal_from_point_slope_length (Line, Normal, rad(Index), 511-Index, Index, 255)</l>
+<l>    dev_set_color ('red')</l>
+<l>    dev_display (Line)</l>
+<l>    dev_set_color ('green')</l>
+<l>    dev_display(Normal)</l>
+<l>    wait_seconds (0.01)</l>
+<l>endfor</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="gen_region_line_normal_from_point_slope_length">
+<interface>
+<oo>
+<par name="Line" base_type="iconic" dimension="0"/>
+<par name="Normal" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="Phi" base_type="ctrl" dimension="0"/>
+<par name="Row" base_type="ctrl" dimension="0"/>
+<par name="Column" base_type="ctrl" dimension="0"/>
+<par name="Length" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>gen_cross_contour_xld (Cross, Row, Column, Length, Phi)</l>
+<l>get_contour_xld (Cross, Row, Column)</l>
+<l>gen_region_line (Line, Row[0], Column[0], Row[1], Column[1])</l>
+<l>gen_region_line (Normal, Row[3], Column[3], Row[4], Column[4])</l>
+<l>return ()</l>
+</body>
+<docu id="gen_region_line_normal_from_point_slope_length">
+<parameters>
+<parameter id="Column"/>
+<parameter id="Length"/>
+<parameter id="Line"/>
+<parameter id="Normal"/>
+<parameter id="Phi"/>
+<parameter id="Row"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
