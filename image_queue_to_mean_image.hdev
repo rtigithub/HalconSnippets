@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>QueueSize := 5</l>
+<l>ImageType := 'byte'</l>
+<l>ImageWidth := 512</l>
+<l>ImageHeight := 512</l>
+<c></c>
+<c>* Queue is actually a vector initialized to zero pixel values</c>
+<l>create_image_queue (ImageQueue, QueueSize, ImageType, ImageWidth, ImageHeight)</l>
+<c></c>
+<c>* Example</c>
+<l>gen_image_const (Image, ImageType, ImageWidth, ImageHeight)</l>
+<l>for Index := 1 to 20 by 1   </l>
+<l>    gen_image_proto (Image, Image, Index * 10)  </l>
+<l>    enqueue_image (ImageQueue, Image, ImageQueue)</l>
+<c> </c>
+<c>    * Convert queued images to a multichannel image</c>
+<l>    queue_to_image (ImageQueue, Image)</l>
+<l>    mean_n (Image, ImageMean)</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

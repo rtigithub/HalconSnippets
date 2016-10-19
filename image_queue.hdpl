@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<library>
+<docu>
+<short lang="en_US">create_image_queue
+enqueue_image
+queue_to_image</short>
+<abstract lang="en_US">Opertators for creating a FIFO queue for monochrome images, adding images to the queue, and converting the queue to a multichannel image when finished.</abstract>
+</docu>
+</library>
+<procedure name="create_image_queue">
+<interface>
+<oo>
+<par name="ImageQueue" base_type="iconic" dimension="1"/>
+</oo>
+<ic>
+<par name="QueueSize" base_type="ctrl" dimension="0"/>
+<par name="ImageType" base_type="ctrl" dimension="0"/>
+<par name="ImageWidth" base_type="ctrl" dimension="0"/>
+<par name="ImageHeight" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* Use global variable as static variable type for queue</c>
+<l>global def tuple oldestImageIndex</l>
+<l>oldestImageIndex := 0</l>
+<c></c>
+<l>for Index := 0 to QueueSize-1 by 1</l>
+<l>    gen_image_const(Image, ImageType, ImageWidth, ImageHeight)</l>
+<l>    ImageQueue.at(Index) := Image</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="create_image_queue">
+<parameters>
+<parameter id="ImageHeight"/>
+<parameter id="ImageQueue"/>
+<parameter id="ImageType"/>
+<parameter id="ImageWidth"/>
+<parameter id="QueueSize"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="enqueue_image">
+<interface>
+<io>
+<par name="inImageQueue" base_type="iconic" dimension="1"/>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="outImageQueue" base_type="iconic" dimension="1"/>
+</oo>
+</interface>
+<body>
+<l>global tuple oldestImageIndex</l>
+<l>outImageQueue := inImageQueue</l>
+<l>outImageQueue.at(oldestImageIndex) := Image</l>
+<l>oldestImageIndex := oldestImageIndex + 1</l>
+<l>if (oldestImageIndex = inImageQueue.length())</l>
+<l>    oldestImageIndex := 0</l>
+<l>endif</l>
+<l>return ()</l>
+</body>
+<docu id="enqueue_image">
+<parameters>
+<parameter id="Image"/>
+<parameter id="inImageQueue"/>
+<parameter id="outImageQueue"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="queue_to_image">
+<interface>
+<io>
+<par name="ImageQueue" base_type="iconic" dimension="1"/>
+</io>
+<oo>
+<par name="Image" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>gen_empty_obj (Image)</l>
+<l>for Index := 0 to ImageQueue.length()-1 by 1</l>
+<l>    append_channel (Image, ImageQueue.at(Index), Image)</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="queue_to_image">
+<parameters>
+<parameter id="Image"/>
+<parameter id="ImageQueue"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
